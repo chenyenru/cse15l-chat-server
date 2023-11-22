@@ -43,4 +43,32 @@ public class SemanticAnalysisHandlerTests {
     h.handleRequest(input3);
     assertEquals(expected, h.handleRequest(input4));
   }
+
+   @Test
+  public void handleRequestMultUsers() throws Exception {
+    ChatHandler h = new ChatHandler();
+    String url1 = "http://localhost:4000/chat?user=onat&message=😂";
+    String url2 = "http://localhost:4000/chat?user=joe&message=😂";
+    String url3 = "http://localhost:4000/chat?user=onat&message=TGIThanksgiving";
+    String url4 = "http://localhost:4000/chat?user=joe&message=TGIThanksgiving";
+    String url5 = "http://localhost:4000/semantic-analysis?user=onat";
+    URI input1 = new URI(url1);
+    URI input2 = new URI(url2);
+    URI input3 = new URI(url3);
+    URI input4 = new URI(url4);
+    URI input5 = new URI(url5);
+
+
+    String expected = "onat: 😂 This message has a LOL vibe.\n\nonat: TGIThanksgiving\n\n";
+
+    h.handleRequest(input1);
+    h.handleRequest(input2);
+    h.handleRequest(input3);
+    h.handleRequest(input4);
+    String result = h.handleRequest(input5);
+    assertEquals(expected, result);
+
+
+
+  }
 }
